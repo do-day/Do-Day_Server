@@ -11,7 +11,8 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Member {
-    @Id @GeneratedValue
+    @Id
+    @GeneratedValue
     private Long id;
 
     private String userId;
@@ -23,4 +24,5 @@ public class Member {
     public void covertReward(Long amount) {
         nowReward -= amount;
     }
+
 }

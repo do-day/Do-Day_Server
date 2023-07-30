@@ -1,7 +1,6 @@
 package com.project.doday.controller;
 
 import com.project.doday.domain.Reward;
-import com.project.doday.dto.SolutionListRes;
 import com.project.doday.service.RewardService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;

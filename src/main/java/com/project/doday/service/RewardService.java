@@ -2,8 +2,6 @@ package com.project.doday.service;
 
 import com.project.doday.domain.Member;
 import com.project.doday.domain.Reward;
-import com.project.doday.domain.Solution;
-import com.project.doday.dto.RewardRes;
 import com.project.doday.repository.MemberRepository;
 import com.project.doday.repository.RewardRepository;
 import lombok.RequiredArgsConstructor;
@@ -11,7 +9,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
