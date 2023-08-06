@@ -4,8 +4,10 @@ import com.project.doday.domain.*;
 import com.project.doday.dto.ReportDetailRes;
 import com.project.doday.dto.ReportFindAllRes;
 import com.project.doday.dto.ReportReq;
+import com.project.doday.dto.SolutionDetailRes;
 import com.project.doday.repository.AdminRepository;
 import com.project.doday.repository.MemberRepository;
+import com.project.doday.repository.ReportRejectRepository;
 import com.project.doday.repository.ReportRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -14,6 +16,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.sql.SQLOutput;
 import java.util.ArrayList;
+import java.util.Optional;
 
 @Service
 @Transactional
@@ -22,6 +25,7 @@ public class ReportService {
 
     private final MemberRepository memberRepository;
     private final ReportRepository reportRepository;
+    private final ReportRejectRepository reportRejectRepository;
     private final S3Uploader s3Uploader;
 
     /**
@@ -96,8 +100,18 @@ public class ReportService {
      */
     public ReportDetailRes getReport(Long reportId) {
         Report report = reportRepository.findById(reportId).get();
+
+        Optional<ReportReject> reportReject = reportRejectRepository.findByReportId(report.getId());
+
+        String content;
+        if (reportReject.isPresent()) {
+            content = reportReject.get().getContent();
+        } else {
+            content = "";
+        }
+
         ReportDetailRes reportDetailRes = new ReportDetailRes(reportId, report.getMember().getId(), report.getLatitude(), report.getLongitude(),
-                report.getLocation(), report.getPhotoRaincatch(), report.getPhotoAround(), report.getDescription(), report.getState());
+                report.getLocation(), report.getPhotoRaincatch(), report.getPhotoAround(), report.getDescription(), report.getState(), content);
         return reportDetailRes;
     }
 }

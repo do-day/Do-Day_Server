@@ -40,4 +40,7 @@ public class ReportDetailRes {
 
     @Schema(description = "신고 상태" , example = "UNRESOLVED")
     private ReportState state;
+
+    @Schema(description = "반려사유" , example = "허위 신고로 판단되어 반려되었습니다.")
+    private String content;
 }
