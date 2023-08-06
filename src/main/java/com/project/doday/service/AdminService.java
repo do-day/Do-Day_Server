@@ -34,7 +34,12 @@ public class AdminService {
         solution.setState(SolutionState.CONFIRMED); // 태그를 확인완료로 변경
 
         // TODO 리워드 적립금액 정하기 (여기서는 100원으로 고정)
-        Reward reward = new Reward(null, solution.getMember(), 100L, "해결하기", solution.getLocation());
+        Reward reward = Reward.builder()
+                .member(solution.getMember())
+                .price(100L)
+                .type("해결하기")
+                .location(solution.getLocation())
+                .build();
         rewardRepository.save(reward);
         Member member = memberRepository.findById(solution.getMember().getId()).get();
         member.earnReward(reward.getPrice());
@@ -67,6 +72,18 @@ public class AdminService {
     public Report approveReport(Long reportId) {
         Report report = reportRepository.findById(reportId).get();
         report.setState(ReportState.UNRESOLVED);
+
+        // 리워드 적립
+        Reward reward = Reward.builder()
+                .member(report.getMember())
+                .price(100L)
+                .type("신고하기")
+                .location(report.getLocation())
+                .build();
+        rewardRepository.save(reward);
+        Member member = memberRepository.findById(report.getMember().getId()).get();
+        member.earnReward(reward.getPrice());
+
         return report;
     }
 
